@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ProyectoFinal</string>
+
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- FACEBOOK -->
+    <string name="facebook_application_id" translatable="false">309408009557224</string>
+
+    <!-- LOGIN MENSSSAGE -->
+    <string name="login_cancel">Inicio de sesión cancelado</string>
+    <string name="login_not_network">No hay conexión a internet </string>
+    <string name="login_error_unknown">Error desconocido</string>
+    <string name="login_unknown_response">No se ha podido iniciar sesión</string>
+</resources>
