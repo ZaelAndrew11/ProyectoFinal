@@ -1,4 +1,4 @@
-package cl.aguzman.proyectofinal;
+package cl.aguzman.proyectofinal.data;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

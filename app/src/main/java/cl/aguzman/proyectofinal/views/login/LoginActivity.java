@@ -1,4 +1,4 @@
-package cl.aguzman.proyectofinal;
+package cl.aguzman.proyectofinal.views.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,12 @@ import com.firebase.ui.auth.ResultCodes;
 
 import java.util.Arrays;
 
-public class LoginActivity extends AppCompatActivity implements ValidateLoginCallback{
+import cl.aguzman.proyectofinal.R;
+import cl.aguzman.proyectofinal.interfaces.ValidateLoginCallback;
+import cl.aguzman.proyectofinal.presenters.ValidateLogin;
+import cl.aguzman.proyectofinal.views.main.MainActivity;
+
+public class LoginActivity extends AppCompatActivity implements ValidateLoginCallback {
     private static final int RC_SIGN_IN = 666;
 
     @Override

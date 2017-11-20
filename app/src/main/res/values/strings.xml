@@ -14,4 +14,18 @@
     <string name="login_not_network">No hay conexión a internet </string>
     <string name="login_error_unknown">Error desconocido</string>
     <string name="login_unknown_response">No se ha podido iniciar sesión</string>
+
+    <!-- UPLOAD VET -->
+    <string name="name_vet">Nombre</string>
+    <string name="email_vet">Email</string>
+    <string name="adress_vet">Dirección</string>
+    <string name="phone_vet">Telefóno celular</string>
+    <string name="description_vet">Descripción</string>
+    <string name="button_upload_vet">Enviar</string>
+
+    <!-- ADD VET -->
+    <string name="missing_fields">Faltan campos por completar</string>
+    <string name="email_error">Email no valido</string>
+    <string name="fail_upload">Error al subir nueva información, por favor inténtelo nuevamente.</string>
+
 </resources>

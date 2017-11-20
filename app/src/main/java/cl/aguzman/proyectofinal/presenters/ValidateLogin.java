@@ -1,4 +1,7 @@
-package cl.aguzman.proyectofinal;
+package cl.aguzman.proyectofinal.presenters;
+
+import cl.aguzman.proyectofinal.data.CurrentUser;
+import cl.aguzman.proyectofinal.interfaces.ValidateLoginCallback;
 
 public class ValidateLogin {
     private ValidateLoginCallback callback;
