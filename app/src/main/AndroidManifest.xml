@@ -3,6 +3,7 @@
     package="cl.aguzman.proyectofinal">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -25,7 +26,8 @@
         <activity
             android:name=".views.main.MainActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name=".views.main.UploadVetActivity"></activity>
+        <activity android:name=".views.main.UploadVetActivity" />
+        <activity android:name=".views.detail.DetailActivity"></activity>
     </application>
 
 </manifest>

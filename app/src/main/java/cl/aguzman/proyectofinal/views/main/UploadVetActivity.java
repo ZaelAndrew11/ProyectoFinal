@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -122,6 +123,7 @@ public class UploadVetActivity extends AppCompatActivity implements ValidateUplo
                 vet_min.setUid(uid);
                 vet_min.setKey(key);
                 vet_min.setScore(0);
+                vet_min.setTimestamp(ServerValue.TIMESTAMP);
                 vet_min.setImage(urlImageDownload);
 
                 vet.setName(nameVet.getText().toString());
@@ -133,7 +135,7 @@ public class UploadVetActivity extends AppCompatActivity implements ValidateUplo
                 vet.setImage(urlImageDownload);
 
                 map.put("veterinarios/"+uid+"/"+key, vet);
-                map.put("veterinarios_min/"+uid+"/"+key, vet_min);
+                map.put("veterinarios_min/"+key, vet_min);
                 reference.updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -156,12 +158,6 @@ public class UploadVetActivity extends AppCompatActivity implements ValidateUplo
         progressDialog = new ProgressDialog(this);
         progressDialog.show();
         uploadImage(urlImage);
-    }
-
-    @Override
-    public void emailErr(int error) {
-        String err = this.getResources().getString(error);
-        emailVet.setError(err);
     }
 
     @Override

@@ -2,16 +2,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cl.aguzman.proyectofinal.views.main.FirstFragment">
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="@dimen/activity_horizontal_margin"
+    tools:context="cl.aguzman.proyectofinal.views.main.ListVetFragment">
+
+    <EditText
+        android:id="@+id/searchEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_bot"
+        android:hint="Buscar..." />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchEt"
+        android:gravity="top"
+        android:orientation="horizontal">
 
-        <TextView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/listVetRv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hola"/>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
@@ -22,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginRight="25dp"
         android:background="@color/colorPrimary"
         android:src="@mipmap/ic_add_white_36dp" />

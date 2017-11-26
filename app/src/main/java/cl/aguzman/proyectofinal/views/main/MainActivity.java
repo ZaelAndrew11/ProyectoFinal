@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import cl.aguzman.proyectofinal.R;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, FirstFragment.OnVarChangedFromFragment{
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ListVetFragment.OnVarChangedFromFragment{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
         FragmentTransaction fragmentTransaction = sanitizer();
-        fragmentTransaction.add(R.id.fragmentsContainer, FirstFragment.newInstance());
+        fragmentTransaction.add(R.id.fragmentsContainer, ListVetFragment.newInstance());
         fragmentTransaction.commitAllowingStateLoss();
     }
 
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigation_home:
-                replaceFragment(FirstFragment.newInstance());
+                replaceFragment(ListVetFragment.newInstance());
                 return true;
             case R.id.navigation_dashboard:
                 replaceFragment(SecondFragment.newInstance());
@@ -64,5 +64,4 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Intent intent = new Intent(this, UploadVetActivity.class);
         startActivity(intent);
     }
-
 }

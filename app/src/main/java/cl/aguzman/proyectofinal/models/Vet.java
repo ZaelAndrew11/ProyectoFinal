@@ -1,10 +1,21 @@
 package cl.aguzman.proyectofinal.models;
 
+import com.google.firebase.database.ServerValue;
+
 public class Vet {
     String name, email, address, phone, description, image, uid, key;
+    Object timestamp;
     int score;
 
     public Vet() {
+    }
+
+    public Object getTimestamp() {
+        return ServerValue.TIMESTAMP;
+    }
+
+    public void setTimestamp(Object timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getName() {

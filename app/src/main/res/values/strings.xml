@@ -26,6 +26,11 @@
     <!-- ADD VET -->
     <string name="missing_fields">Faltan campos por completar</string>
     <string name="email_error">Email no valido</string>
+    <string name="phone_error">Número telefónico no valido</string>
     <string name="fail_upload">Error al subir nueva información, por favor inténtelo nuevamente.</string>
+
+    <!-- DETAIL -->
+    <string name="call_btn">Llamado de Emergencia</string>
+    <string name="solicit_btn">Solicitar veterinario</string>
 
 </resources>

@@ -10,4 +10,8 @@ public class Queries {
         return databaseReference;
     }
 
+    public DatabaseReference getVet(){
+        return databaseReference.child("veterinarios");
+    }
+
 }
