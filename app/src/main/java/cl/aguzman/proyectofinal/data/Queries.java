@@ -14,4 +14,8 @@ public class Queries {
         return databaseReference.child("veterinarios");
     }
 
+    public DatabaseReference getUser(){
+        return databaseReference.child("users");
+    }
+
 }

@@ -9,11 +9,16 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.ResultCodes;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.Arrays;
 
 import cl.aguzman.proyectofinal.R;
+import cl.aguzman.proyectofinal.data.CurrentUser;
+import cl.aguzman.proyectofinal.data.FcmToken;
+import cl.aguzman.proyectofinal.data.Queries;
 import cl.aguzman.proyectofinal.interfaces.ValidateLoginCallback;
+import cl.aguzman.proyectofinal.models.User;
 import cl.aguzman.proyectofinal.presenters.ValidateLogin;
 import cl.aguzman.proyectofinal.views.main.MainActivity;
 
@@ -64,12 +69,22 @@ public class LoginActivity extends AppCompatActivity implements ValidateLoginCal
                     return;
                 }
             }
-            message(R.string.login_unknown_response);
+            //message(R.string.login_unknown_response);
         }
     }
 
     @Override
     public void logged() {
+        String uid = new CurrentUser().getCurrentUid();
+        String name = new CurrentUser().getCurrentUser().getDisplayName();
+        String emil = new CurrentUser().email();
+        String token = new FcmToken(this).get();
+        User user = new User();
+        user.setEmail(emil);
+        user.setName(name);
+        user.setToken(token);
+        DatabaseReference refUser = new Queries().getUser().child(uid);
+        refUser.setValue(user);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
