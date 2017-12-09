@@ -18,4 +18,8 @@ public class Queries {
         return databaseReference.child("users");
     }
 
+    public DatabaseReference getPetsnames(){
+        return databaseReference.child("mascotas");
+    }
+
 }

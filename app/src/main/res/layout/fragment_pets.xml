@@ -2,35 +2,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
     android:padding="@dimen/activity_horizontal_margin"
-    tools:context="cl.aguzman.proyectofinal.views.main.ListVetFragment">
+    tools:context="cl.aguzman.proyectofinal.views.main.ListPetsFragment">
 
-    <EditText
-        android:id="@+id/searchEt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_5"
-        android:hint="Buscar..." />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/searchEt"
         android:gravity="top"
         android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/listVetRv"
+            android:id="@+id/listPetsRv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 
-
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btn_plus"
+        android:id="@+id/plusPetsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

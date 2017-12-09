@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 replaceFragment(ListVetFragment.newInstance());
                 return true;
             case R.id.navigation_dashboard:
-                replaceFragment(SecondFragment.newInstance());
+                replaceFragment(ListPetsFragment.newInstance());
                 return true;
             case R.id.navigation_notifications:
                 replaceFragment(ThirdFragment.newInstance());

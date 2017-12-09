@@ -84,7 +84,7 @@ public class ListVetFragment extends Fragment implements GetContentCallback{
     }
 
     void filter(String text){
-        adapter = new ListVetAdapter(this, new Queries().root().child("veterinarios_min").orderByChild("name").equalTo(text));
+        adapter = new ListVetAdapter(this, new Queries().root().child("veterinarios_min").orderByChild("name").startAt(text));
         recyclerView.setAdapter(adapter);
         adapter.updateList();
     }
