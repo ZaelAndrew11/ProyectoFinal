@@ -35,7 +35,8 @@ public class ListPetsAdapter extends FirebaseRecyclerAdapter<MedicalHistory, Lis
                 int auxPosition = viewHolder.getAdapterPosition();
                 String namePet = getItem(auxPosition).getNamePet();
                 String photoPetUrl = getItem(auxPosition).getPhotoPet();
-                callback.getMedicalHistory(namePet, photoPetUrl);
+                String key = getItem(auxPosition).getKey();
+                callback.getMedicalHistory(namePet, photoPetUrl, key);
             }
         });
     }

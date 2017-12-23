@@ -74,7 +74,7 @@ public class AddPetDialogFragment extends DialogFragment implements ValidatePetC
     @Override
     public void onStart() {
         super.onStart();
-        Dialog dialog = getDialog();
+        dialog = getDialog();
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
@@ -157,11 +157,14 @@ public class AddPetDialogFragment extends DialogFragment implements ValidatePetC
                 @SuppressWarnings("VisibleForTests") String url = taskSnapshot.getDownloadUrl().toString();
                 url = url.split("&token=")[0];
 
+                String key = refPets.child(uid).push().getKey();
+
                 MedicalHistory medicalHistory = new MedicalHistory();
                 medicalHistory.setNamePet(namePet);
                 medicalHistory.setPhotoPet(url);
+                medicalHistory.setKey(key);
 
-                refPets.child(uid).child(namePet).setValue(medicalHistory).addOnSuccessListener(new OnSuccessListener<Void>() {
+                refPets.child(uid).child(key).setValue(medicalHistory).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         progressDialog.dismiss();

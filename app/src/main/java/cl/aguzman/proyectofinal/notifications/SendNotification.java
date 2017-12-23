@@ -36,7 +36,6 @@ public class SendNotification {
                     Response response = client.newCall(request).execute();
                     String finalResponse = response.body().string();
                 }catch (Exception e){
-
                 }
                 return null;
             }

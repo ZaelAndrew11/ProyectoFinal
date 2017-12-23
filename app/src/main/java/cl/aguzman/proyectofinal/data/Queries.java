@@ -22,4 +22,8 @@ public class Queries {
         return databaseReference.child("mascotas");
     }
 
+    public  DatabaseReference getDates(){
+        return databaseReference.child("historial_medico");
+    }
+
 }

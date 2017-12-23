@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -21,23 +22,37 @@ import com.squareup.picasso.Picasso;
 
 import cl.aguzman.proyectofinal.R;
 import cl.aguzman.proyectofinal.data.Queries;
+import cl.aguzman.proyectofinal.interfaces.DetailCallback;
 import cl.aguzman.proyectofinal.models.User;
 import cl.aguzman.proyectofinal.models.Vet;
-import cl.aguzman.proyectofinal.notifications.SendNotification;
 import cl.aguzman.proyectofinal.presenters.ValidateDetail;
+import cl.aguzman.proyectofinal.views.main.MainActivity;
+import cl.aguzman.proyectofinal.views.pets.NamePetsCheckDialogFragment;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements DetailCallback {
 
+    public static final String DIALOG_NAMES_PETS_CHECK = "CL.AGUZMAN.PROYECTOFINAL.DIALOG_NAMES_PETS_CHECK";
     String tel;
     String token;
+    String uid;
+    TextView textNotPets;
+    Button notPetBtn;
+    Button detailSolicitBtn;
+    ImageButton scoreBtn;
+    Button detailCallBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        final String uid = getIntent().getStringExtra("uid");
+        uid = getIntent().getStringExtra("uid");
         final String key = getIntent().getStringExtra("key");
+
+        showDialogHide();
+
+        textNotPets = (TextView) findViewById(R.id.textNotPetTv);
+        notPetBtn = (Button) findViewById(R.id.notPetBtn);
 
         final ImageView detailImgVet = (ImageView) findViewById(R.id.detailIv);
         final TextView detailScoreTv = (TextView) findViewById(R.id.detailScoreTv);
@@ -46,9 +61,9 @@ public class DetailActivity extends AppCompatActivity {
         final TextView detailEmailTv = (TextView) findViewById(R.id.detailEmailTv);
         final TextView detailPhoneTv = (TextView) findViewById(R.id.detailPhoneTv);
         final TextView detailDescriptionTv = (TextView) findViewById(R.id.detailDescriptionTv);
-        ImageButton scoreBtn = (ImageButton) findViewById(R.id.likeIb);
-        Button detailCallBtn = (Button) findViewById(R.id.callBtn);
-        Button detailSolicitBtn = (Button) findViewById(R.id.solicitBtn);
+        scoreBtn = (ImageButton) findViewById(R.id.likeIb);
+        detailCallBtn = (Button) findViewById(R.id.callBtn);
+        detailSolicitBtn = (Button) findViewById(R.id.solicitBtn);
 
         DatabaseReference ref = new Queries().getVet();
         ref.child(uid).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -67,25 +82,13 @@ public class DetailActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 
         detailSolicitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference reference = new Queries().getUser().child(uid);
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        User user = dataSnapshot.getValue(User.class);
-                        token = user.getToken();
-                        new SendNotification().sendNotification(token, "Solicitud de veterinario", "Por favor necesito un veterinario para mi perrito");
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {}
-                });
+                showDialogModal();
             }
         });
 
@@ -104,9 +107,72 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatabaseReference likeRef = new Queries().getVet().child(uid).child(key);
-                new ValidateDetail().run(likeRef);
+                new ValidateDetail(DetailActivity.this).run(likeRef);
             }
         });
 
+        notPetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void showDialogHide() {
+        DatabaseReference reference = new Queries().getUser().child(uid);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                token = user.getToken();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        NamePetsCheckDialogFragment checkFragment = NamePetsCheckDialogFragment.newInstance(token);
+        checkFragment.show(fragmentManager, DIALOG_NAMES_PETS_CHECK);
+        checkFragment.dismiss();
+    }
+
+    private void showDialogModal() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        NamePetsCheckDialogFragment checkFragment = NamePetsCheckDialogFragment.newInstance(token);
+        checkFragment.show(fragmentManager, DIALOG_NAMES_PETS_CHECK);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new ValidateDetail(this).verificationPets(uid);
+    }
+
+    @Override
+    public void like() {}
+
+    @Override
+    public void disLike() {}
+
+    @Override
+    public void hasPet() {
+        textNotPets.setVisibility(View.GONE);
+        notPetBtn.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void notPet() {
+        detailSolicitBtn.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void sameVet() {
+        /*textNotPets.setVisibility(View.GONE);
+        notPetBtn.setVisibility(View.GONE);
+        detailSolicitBtn.setVisibility(View.GONE);
+        scoreBtn.setVisibility(View.GONE);
+        detailCallBtn.setVisibility(View.GONE);*/
     }
 }

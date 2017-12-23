@@ -1,10 +1,32 @@
 package cl.aguzman.proyectofinal.models;
 
-import java.util.Date;
-
 public class MedicalHistory {
     String namePet, photoPet, descriptionMedical, key;
-    Date date;
+    int day, month, year;
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
 
     public MedicalHistory() {
     }
@@ -41,11 +63,4 @@ public class MedicalHistory {
         this.descriptionMedical = descriptionMedical;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 }

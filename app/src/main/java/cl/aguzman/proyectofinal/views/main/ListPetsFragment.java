@@ -47,6 +47,8 @@ public class ListPetsFragment extends Fragment implements GetMedicalHistory{
         recyclerView = (RecyclerView) view.findViewById(R.id.listPetsRv);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new ListPetsAdapter(this, new Queries().getPetsnames().child(new CurrentUser().getCurrentUid()));
@@ -67,10 +69,11 @@ public class ListPetsFragment extends Fragment implements GetMedicalHistory{
     }
 
     @Override
-    public void getMedicalHistory(String namePet, String photoPetUrl) {
+    public void getMedicalHistory(String namePet, String photoPetUrl, String key) {
         Intent intent = new Intent(getActivity(), MedicalHistoryPetActivity.class);
         intent.putExtra("name", namePet);
         intent.putExtra("url", photoPetUrl);
+        intent.putExtra("key", key);
         startActivity(intent);
     }
 }

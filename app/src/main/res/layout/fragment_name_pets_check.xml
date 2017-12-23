@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin"
+    tools:context="cl.aguzman.proyectofinal.views.pets.NamePetsCheckDialogFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listNamePetsRv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/namePetsCheckBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:enabled="false"
+        android:text="SOLICITAR" />
+
+</LinearLayout>
