@@ -6,31 +6,30 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
 import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 
 import cl.aguzman.proyectofinal.R;
-import cl.aguzman.proyectofinal.interfaces.GetContentCallback;
+import cl.aguzman.proyectofinal.interfaces.GetContentVetRequestCallback;
 import cl.aguzman.proyectofinal.models.Vet;
 
-public class ListVetAdapter extends FirebaseRecyclerAdapter<Vet, ListVetAdapter.VetHolder>{
+public class ListVetRequestAdapter extends FirebaseIndexRecyclerAdapter<Vet, ListVetRequestAdapter.VetRequestHolder>{
 
-    private GetContentCallback callback;
+    private GetContentVetRequestCallback callback;
 
-    public ListVetAdapter(GetContentCallback callback, Query ref) {
-        super(Vet.class, R.layout.item_list_vet, VetHolder.class, ref);
+    public ListVetRequestAdapter(GetContentVetRequestCallback callback, Query keyRef, Query dataRef) {
+        super(Vet.class, R.layout.item_list_vet, VetRequestHolder.class, keyRef, dataRef);
         this.callback = callback;
     }
 
     @Override
-    protected void populateViewHolder(final VetHolder viewHolder, Vet model, int position) {
+    protected void populateViewHolder(final VetRequestHolder viewHolder, Vet model, int position) {
         ImageView vetImage = viewHolder.itemLogoVet;
         LinearLayout item = viewHolder.itemVet;
         Picasso.with(viewHolder.itemLogoVet.getContext()).load(model.getImage()).into(viewHolder.itemLogoVet);
         viewHolder.itemNameVet.setText(model.getName());
         viewHolder.itemScoreVet.setText(String.valueOf(model.getScore()));
-
 
         item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,17 +42,12 @@ public class ListVetAdapter extends FirebaseRecyclerAdapter<Vet, ListVetAdapter.
         });
     }
 
-    public void updateList(){
-        notifyDataSetChanged();
-    }
-
-
-    public static class VetHolder extends RecyclerView.ViewHolder{
+    public static class VetRequestHolder extends RecyclerView.ViewHolder {
         ImageView itemLogoVet;
         TextView itemNameVet;
         TextView itemScoreVet;
         LinearLayout itemVet;
-        public VetHolder(View itemView) {
+        public VetRequestHolder(View itemView) {
             super(itemView);
             itemVet = (LinearLayout) itemView;
             itemLogoVet = (ImageView) itemView.findViewById(R.id.imageItemVet);

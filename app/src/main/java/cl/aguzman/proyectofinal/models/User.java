@@ -1,9 +1,25 @@
 package cl.aguzman.proyectofinal.models;
 
 public class User {
-    String uid, token, email, name;
+    String uid, token, email, name, phone, adress;
 
     public User() {
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 
     public String getUid() {

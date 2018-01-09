@@ -1,7 +1,5 @@
 package cl.aguzman.proyectofinal.interfaces;
 
-public interface GetContentCallback {
+public interface GetContentVetRequestCallback {
     void getDetail(String uid, String key);
-    void vetExist();
-    void VetNotExist();
 }

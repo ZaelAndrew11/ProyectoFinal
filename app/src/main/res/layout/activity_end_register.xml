@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:gravity="center"
+    tools:context="cl.aguzman.proyectofinal.views.login.EndRegisterActivity">
+
+    <ImageView
+        android:id="@+id/profileImageIv"
+        android:layout_marginBottom="@dimen/margin_5"
+        android:layout_width="70dp"
+        android:layout_height="70dp" />
+
+    <EditText
+        android:hint="Nombre"
+        android:id="@+id/nameProfileEt"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:hint="Email"
+        android:id="@+id/emailProfileEt"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:hint="Número Teléfonico"
+        android:id="@+id/phoneProfileEt"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:hint="Dirección"
+        android:layout_marginTop="@dimen/margin_5"
+        android:id="@+id/adressProfileEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="FINALIZAR REGISTRO"
+        android:layout_marginTop="@dimen/margin_5"
+        android:id="@+id/sendProfileBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

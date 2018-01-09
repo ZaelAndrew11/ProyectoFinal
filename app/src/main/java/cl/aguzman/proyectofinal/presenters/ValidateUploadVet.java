@@ -1,8 +1,5 @@
 package cl.aguzman.proyectofinal.presenters;
 
-import android.text.TextUtils;
-import android.util.Patterns;
-
 import cl.aguzman.proyectofinal.R;
 import cl.aguzman.proyectofinal.interfaces.ValidateUploadVetCallback;
 
@@ -13,33 +10,20 @@ public class ValidateUploadVet {
         this.callback = callback;
     }
 
-    public void validateupload(String name, String email, String address, String phone, String description, String urlImage) {
+    public void validateupload(String name, String email, String address, String phone, String description, String urlImage, String rut) {
 
-        if (name.toString().length() > 0 && email.toString().length() > 0 && address.toString().length() > 0 && phone.toString().length() > 0 && description.toString().length() > 0 && urlImage != null) {
-            if (!isValidEmail(email)) {
+        if (name.length() > 0 && email.length() > 0 && address.length() > 0 && phone.length() > 0 && description.length() > 0 && rut.length() > 0 && urlImage != null) {
+            if (!new ValidateFields().isValidEmail(email)) {
                 callback.failed(R.string.email_error);
-            }else if(!isValidPhoneNumber(phone)){
+            }else if(!new ValidateFields().isValidPhoneNumber(phone)){
                 callback.failed(R.string.phone_error);
-            } else {
+            }else if(!new ValidateFields().isValidRut(rut)){
+                callback.failed(R.string.rut_error);
+            }else {
                 callback.success();
             }
         } else {
             callback.failed(R.string.missing_fields);
         }
-    }
-
-
-    private boolean isValidEmail(CharSequence email) {
-        if (!TextUtils.isEmpty(email)) {
-            return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-        }
-        return false;
-    }
-
-    private boolean isValidPhoneNumber(CharSequence phoneNumber) {
-        if (!TextUtils.isEmpty(phoneNumber)) {
-            return Patterns.PHONE.matcher(phoneNumber).matches();
-        }
-        return false;
     }
 }

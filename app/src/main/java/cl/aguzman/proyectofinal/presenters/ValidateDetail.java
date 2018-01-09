@@ -1,6 +1,7 @@
 package cl.aguzman.proyectofinal.presenters;
 
 import android.util.Log;
+import android.widget.ImageButton;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,25 +16,54 @@ import cl.aguzman.proyectofinal.interfaces.DetailCallback;
 import cl.aguzman.proyectofinal.models.Vet;
 
 public class ValidateDetail {
-    DetailCallback callback;
+    private DetailCallback callback;
+    private DatabaseReference likesRef;
 
     public ValidateDetail(DetailCallback callback) {
         this.callback = callback;
     }
 
-    public void run(DatabaseReference reference) {
+    public void validateLike(String key, final ImageButton imageButton){
+        likesRef = new Queries().getLikes().child(new CurrentUser().getCurrentUid()).child(key);
+        likesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() == null){
+                    imageButton.setTag("like");
+                }else {
+                    imageButton.setTag("dislike");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+    public void run(DatabaseReference reference, final String key, final String tag) {
+        likesRef = new Queries().getLikes().child(new CurrentUser().getCurrentUid()).child(key);
+        final DatabaseReference refVet = new Queries().getVetMin().child(key).child("score");
         reference.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
-                Vet vet = mutableData.getValue(Vet.class);
-                Log.d("DATAS", String.valueOf(vet));
+                int score = mutableData.getValue(Vet.class).getScore();
                 if (mutableData.getValue() == null) {
                     return Transaction.success(mutableData);
                 }
-
                 if (mutableData.getValue() != null) {
-                    int like = vet.getScore() + 1;
-                    mutableData.child("score").setValue(like);
+                    Log.d("SCORE", String.valueOf(score));
+                    if (tag.equals("like")) {
+                        callback.like();
+                        likesRef.setValue(true);
+                        score++;
+
+                    } else {
+                        callback.disLike();
+                        likesRef.setValue(null);
+                        score--;
+                    }
+                    mutableData.child("score").setValue(score);
+                    refVet.setValue(score);
                 }
 
                 return Transaction.success(mutableData);
@@ -41,15 +71,14 @@ public class ValidateDetail {
 
             @Override
             public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                Log.d("ERROR", "likeTransaction:onComplete:" + databaseError);
             }
         });
-    }//end run
+    }
 
     public void verificationPets(String uid) {
         String currentUid = new CurrentUser().getCurrentUid();
         DatabaseReference refPets = new Queries().getPetsnames().child(currentUid);
-
-        Log.d("UID", uid + " - " + currentUid);
 
         if (uid.equals(currentUid)) {
             callback.sameVet();
@@ -63,10 +92,13 @@ public class ValidateDetail {
                         callback.notPet();
                     }
                 }
+
                 @Override
-                public void onCancelled(DatabaseError databaseError) {}
+                public void onCancelled(DatabaseError databaseError) {
+                }
             });
         }
 
     }
+
 }

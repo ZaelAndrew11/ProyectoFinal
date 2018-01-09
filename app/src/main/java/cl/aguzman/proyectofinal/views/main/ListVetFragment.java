@@ -19,6 +19,7 @@ import cl.aguzman.proyectofinal.R;
 import cl.aguzman.proyectofinal.adapters.ListVetAdapter;
 import cl.aguzman.proyectofinal.data.Queries;
 import cl.aguzman.proyectofinal.interfaces.GetContentCallback;
+import cl.aguzman.proyectofinal.presenters.ValidateVetExist;
 import cl.aguzman.proyectofinal.views.detail.DetailActivity;
 
 public class ListVetFragment extends Fragment implements GetContentCallback{
@@ -26,6 +27,8 @@ public class ListVetFragment extends Fragment implements GetContentCallback{
     OnVarChangedFromFragment mCallback;
     private ListVetAdapter adapter;
     private RecyclerView recyclerView;
+    private FloatingActionButton floatingActionButton;
+
     public ListVetFragment() {
     }
 
@@ -34,24 +37,23 @@ public class ListVetFragment extends Fragment implements GetContentCallback{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_list_vet, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.btn_plus);
-
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.btn_plus);
         EditText searchtext = (EditText) view.findViewById(R.id.searchEt);
-
         recyclerView = (RecyclerView) view.findViewById(R.id.listVetRv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-        adapter = new ListVetAdapter(this, new Queries().root().child("veterinarios_min").orderByChild("timestamp"));
+        adapter = new ListVetAdapter(this, new Queries().getVetMin().orderByChild("publish").equalTo(true));
         recyclerView.setAdapter(adapter);
+
+        new ValidateVetExist(this).validateVet();
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,14 +64,10 @@ public class ListVetFragment extends Fragment implements GetContentCallback{
 
         searchtext.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -101,6 +99,16 @@ public class ListVetFragment extends Fragment implements GetContentCallback{
         intent.putExtra("uid", uid);
         intent.putExtra("key", key);
         startActivity(intent);
+    }
+
+    @Override
+    public void vetExist() {
+        floatingActionButton.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void VetNotExist() {
+        floatingActionButton.setVisibility(View.VISIBLE);
     }
 
 

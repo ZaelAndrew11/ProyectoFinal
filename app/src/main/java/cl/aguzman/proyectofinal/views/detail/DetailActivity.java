@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import cl.aguzman.proyectofinal.R;
+import cl.aguzman.proyectofinal.data.CurrentUser;
 import cl.aguzman.proyectofinal.data.Queries;
 import cl.aguzman.proyectofinal.interfaces.DetailCallback;
 import cl.aguzman.proyectofinal.models.User;
@@ -32,22 +33,39 @@ import cl.aguzman.proyectofinal.views.pets.NamePetsCheckDialogFragment;
 public class DetailActivity extends AppCompatActivity implements DetailCallback {
 
     public static final String DIALOG_NAMES_PETS_CHECK = "CL.AGUZMAN.PROYECTOFINAL.DIALOG_NAMES_PETS_CHECK";
-    String tel;
-    String token;
-    String uid;
-    TextView textNotPets;
-    Button notPetBtn;
-    Button detailSolicitBtn;
-    ImageButton scoreBtn;
-    Button detailCallBtn;
+    private String tel;
+    private String address;
+    private String token;
+    private String uid;
+    private String key;
+    private TextView textNotPets;
+    private TextView detailScoreTv;
+    private Button notPetBtn;
+    private Button detailSolicitBtn;
+    private ImageButton scoreBtn;
+    private Button detailCallBtn;
+    private DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        DatabaseReference reference = new Queries().getUser().child(new CurrentUser().getCurrentUid());
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                tel = user.getPhone();
+                address = user.getAdress();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
         uid = getIntent().getStringExtra("uid");
-        final String key = getIntent().getStringExtra("key");
+        key = getIntent().getStringExtra("key");
 
         showDialogHide();
 
@@ -55,7 +73,7 @@ public class DetailActivity extends AppCompatActivity implements DetailCallback 
         notPetBtn = (Button) findViewById(R.id.notPetBtn);
 
         final ImageView detailImgVet = (ImageView) findViewById(R.id.detailIv);
-        final TextView detailScoreTv = (TextView) findViewById(R.id.detailScoreTv);
+        detailScoreTv = (TextView) findViewById(R.id.detailScoreTv);
         final TextView detailNameTv = (TextView) findViewById(R.id.detailNameTv);
         final TextView detailAdressTv = (TextView) findViewById(R.id.detailAdressTv);
         final TextView detailEmailTv = (TextView) findViewById(R.id.detailEmailTv);
@@ -65,15 +83,15 @@ public class DetailActivity extends AppCompatActivity implements DetailCallback 
         detailCallBtn = (Button) findViewById(R.id.callBtn);
         detailSolicitBtn = (Button) findViewById(R.id.solicitBtn);
 
-        DatabaseReference ref = new Queries().getVet();
-        ref.child(uid).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+        ref = new Queries().getVet();
+
+        ref.child(uid).child(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Vet vet = dataSnapshot.getValue(Vet.class);
-                tel = vet.getPhone();
                 Picasso.with(detailImgVet.getContext()).load(vet.getImage()).into(detailImgVet);
-                detailScoreTv.setText(String.valueOf(vet.getScore()));
                 detailNameTv.setText(vet.getName());
+                detailScoreTv.setText(String.valueOf(vet.getScore()));
                 detailAdressTv.setText(vet.getAddress());
                 detailEmailTv.setText(vet.getEmail());
                 detailPhoneTv.setText(vet.getPhone());
@@ -81,8 +99,7 @@ public class DetailActivity extends AppCompatActivity implements DetailCallback 
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
+            public void onCancelled(DatabaseError databaseError) {}
         });
 
         detailSolicitBtn.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +124,7 @@ public class DetailActivity extends AppCompatActivity implements DetailCallback 
             @Override
             public void onClick(View v) {
                 DatabaseReference likeRef = new Queries().getVet().child(uid).child(key);
-                new ValidateDetail(DetailActivity.this).run(likeRef);
+                new ValidateDetail(DetailActivity.this).run(likeRef, key, scoreBtn.getTag().toString());
             }
         });
 
@@ -133,14 +150,14 @@ public class DetailActivity extends AppCompatActivity implements DetailCallback 
             public void onCancelled(DatabaseError databaseError) {}
         });
         FragmentManager fragmentManager = getSupportFragmentManager();
-        NamePetsCheckDialogFragment checkFragment = NamePetsCheckDialogFragment.newInstance(token);
+        NamePetsCheckDialogFragment checkFragment = NamePetsCheckDialogFragment.newInstance(token, tel, address, key);
         checkFragment.show(fragmentManager, DIALOG_NAMES_PETS_CHECK);
         checkFragment.dismiss();
     }
 
     private void showDialogModal() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        NamePetsCheckDialogFragment checkFragment = NamePetsCheckDialogFragment.newInstance(token);
+        NamePetsCheckDialogFragment checkFragment = NamePetsCheckDialogFragment.newInstance(token, tel, address, key);
         checkFragment.show(fragmentManager, DIALOG_NAMES_PETS_CHECK);
     }
 
@@ -148,13 +165,20 @@ public class DetailActivity extends AppCompatActivity implements DetailCallback 
     protected void onResume() {
         super.onResume();
         new ValidateDetail(this).verificationPets(uid);
+        new ValidateDetail(this).validateLike(key, scoreBtn);
     }
 
     @Override
-    public void like() {}
+    public void like() {
+        //scoreBtn.setBackgroundResource(R.mipmap.ic_mood_bad_white_24dp);
+        scoreBtn.setTag("dislike");
+    }
 
     @Override
-    public void disLike() {}
+    public void disLike() {
+        //scoreBtn.setBackgroundResource(R.mipmap.ic_mood_white_24dp);
+        scoreBtn.setTag("like");
+    }
 
     @Override
     public void hasPet() {
@@ -169,10 +193,10 @@ public class DetailActivity extends AppCompatActivity implements DetailCallback 
 
     @Override
     public void sameVet() {
-        /*textNotPets.setVisibility(View.GONE);
+        textNotPets.setVisibility(View.GONE);
         notPetBtn.setVisibility(View.GONE);
         detailSolicitBtn.setVisibility(View.GONE);
-        scoreBtn.setVisibility(View.GONE);
-        detailCallBtn.setVisibility(View.GONE);*/
+        detailCallBtn.setVisibility(View.GONE);
+        scoreBtn.setEnabled(false);
     }
 }

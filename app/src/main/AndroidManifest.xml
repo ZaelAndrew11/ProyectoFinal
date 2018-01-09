@@ -48,7 +48,8 @@
         <activity
             android:name=".views.pets.MedicalHistoryPetActivity"
             android:label="@string/title_activity_medical_history_pet"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".views.login.EndRegisterActivity" />
     </application>
 
 </manifest>

@@ -15,4 +15,16 @@ public class CurrentUser {
     public String getCurrentUid(){
         return getCurrentUser().getUid();
     }
+
+    public String getImageUser(){
+        return getCurrentUser().getPhotoUrl().toString();
+    }
+
+    public String getNameUser(){
+        return getCurrentUser().getDisplayName();
+    }
+
+    public String getPhotoUser(){
+        return  getCurrentUser().getPhotoUrl().toString();
+    }
 }

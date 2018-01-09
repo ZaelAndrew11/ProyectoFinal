@@ -27,7 +27,8 @@
 
         <ImageButton
             android:id="@+id/likeIb"
-            android:background="@drawable/com_facebook_button_like_background"
+            android:src="@mipmap/ic_mood_white_24dp"
+            android:tag="like"
             android:layout_gravity="end"
             android:layout_width="50dp"
             android:layout_height="50dp" />

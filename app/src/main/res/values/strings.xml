@@ -5,6 +5,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_profile">Profile</string>
 
     <!-- FACEBOOK -->
     <string name="facebook_application_id" translatable="false">309408009557224</string>
@@ -17,25 +18,38 @@
 
     <!-- UPLOAD VET -->
     <string name="name_vet">Nombre</string>
+    <string name="rut_vet">Ejemplo: 17235xxx-8</string>
     <string name="email_vet">Email</string>
     <string name="adress_vet">Dirección</string>
     <string name="phone_vet">Telefóno celular</string>
     <string name="description_vet">Descripción</string>
     <string name="button_upload_vet">Enviar</string>
+    <string name="alert">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
+    <string name="alert_title">Aviso</string>
+
+    <!-- GENERICOS -->
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
 
     <!-- ADD VET -->
     <string name="missing_fields">Faltan campos por completar</string>
     <string name="email_error">Email no valido</string>
     <string name="phone_error">Número telefónico no valido</string>
+    <string name="rut_error">RUT no valido</string>
     <string name="fail_upload">Error al subir nueva información, por favor inténtelo nuevamente.</string>
 
     <!-- ADD PET -->
     <string name="hint_name_pet">Nombre de su Mascota</string>
 
+    <!-- PROFILE -->
+    <string name="message_delete">¿Seguro que deseas eliminar tu cuenta?</string>
+
     <!-- DETAIL -->
     <string name="call_btn">Llamado de Emergencia</string>
     <string name="solicit_btn">Solicitar veterinario</string>
     <string name="add_pet_btn">Agregar Mascota</string>
+    <string name="notification_ok">Su solicitud ha sido recibida exitosamente, por favor espere un momento a que sea respondida o bien puede contactarse directamente con el botón llamado de emergencia.</string>
+    <string name="notificartion_fail">Ups!! Ha ocurrido un error al enviar la solicitud, por favor inténtelo de nuevo más tarde o contáctese directamente con el botón llamado de emergencia.</string>
 
     <!-- PET -->
     <string name="pet_exist">Nombre de mascota ya existe</string>

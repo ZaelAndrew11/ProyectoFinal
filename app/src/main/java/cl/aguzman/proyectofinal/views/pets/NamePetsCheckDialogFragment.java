@@ -1,7 +1,10 @@
 package cl.aguzman.proyectofinal.views.pets;
 
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -12,29 +15,41 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.ArrayList;
 
 import cl.aguzman.proyectofinal.R;
 import cl.aguzman.proyectofinal.adapters.ListPetsAdapterCheck;
 import cl.aguzman.proyectofinal.data.CurrentUser;
+import cl.aguzman.proyectofinal.data.FcmToken;
 import cl.aguzman.proyectofinal.data.Queries;
 import cl.aguzman.proyectofinal.interfaces.CallVetCallback;
+import cl.aguzman.proyectofinal.interfaces.ValidateNotificationSend;
 import cl.aguzman.proyectofinal.notifications.SendNotification;
 
-public class NamePetsCheckDialogFragment extends DialogFragment implements CallVetCallback{
+public class NamePetsCheckDialogFragment extends DialogFragment implements CallVetCallback, ValidateNotificationSend {
     private RecyclerView recyclerView;
     private Button button;
     private ListPetsAdapterCheck adapterCheck;
     private Dialog dialog;
     private String tokenVet;
+    private String phone;
+    private String address;
+    private String key;
+    private ArrayList infoArr;
+    private ProgressDialog progressDialog;
 
     public NamePetsCheckDialogFragment() {
     }
 
-    public static NamePetsCheckDialogFragment newInstance(String tokenVet) {
+    public static NamePetsCheckDialogFragment newInstance(String tokenVet, String phone, String adreess, String key) {
         NamePetsCheckDialogFragment petsCheckDialogFragment = new NamePetsCheckDialogFragment();
         Bundle args = new Bundle();
         args.putString("tokenVet", tokenVet);
+        args.putString("phone", phone);
+        args.putString("address", adreess);
+        args.putString("key", key);
         petsCheckDialogFragment.setArguments(args);
         return petsCheckDialogFragment;
     }
@@ -42,7 +57,11 @@ public class NamePetsCheckDialogFragment extends DialogFragment implements CallV
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progressDialog = new ProgressDialog(getActivity());
         tokenVet = getArguments().getString("tokenVet");
+        phone = getArguments().getString("phone");
+        address = getArguments().getString("address");
+        key = getArguments().getString("key");
     }
 
     @Override
@@ -70,17 +89,52 @@ public class NamePetsCheckDialogFragment extends DialogFragment implements CallV
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new SendNotification().sendNotification(tokenVet, "Solicitud de veterinario", "Por favor necesito un veterinario para mi perrito");
+                String tokenUser =  new FcmToken(getActivity()).get();
+                new SendNotification(NamePetsCheckDialogFragment.this).sendNotification(tokenVet, "Solicitud de veterinario", "Por favor necesito un veterinario para mi perrito", phone, address, infoArr, progressDialog, tokenUser);
             }
         });
     }
 
     @Override
+    public void sendOk() {
+        DatabaseReference ref = new Queries().getVetRequested().child(new CurrentUser().getCurrentUid()).child(key);
+        ref.setValue(true);
+        getDialog().dismiss();
+        alertDialogShow(R.string.notification_ok);
+    }
+
+    @Override
+    public void sendFail() {
+        getDialog().dismiss();
+        alertDialogShow(R.string.notificartion_fail);
+    }
+
+    @Override
     public void infoPets(ArrayList list) {
-        if (list.size() > 0){
+        infoArr = list;
+        if (infoArr.size() > 0) {
             button.setEnabled(true);
-        }else{
+        } else {
             button.setEnabled(false);
         }
     }
+
+    public void alertDialogShow(final int message) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(message);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialogShow = builder.create();
+                dialogShow.show();
+            }
+        });
+    }
+
 }

@@ -16,7 +16,7 @@ public class MessageNotification {
 
     private static final String NOTIFICATION_TAG = "Message";
 
-    public static void notify(final Context context, String titleMsj, String textMsj, String token) {
+    public static void notify(final Context context, String titleMsj, String textMsj, String token, String info, String userInfo) {
 
         final Resources res = context.getResources();
         //final Bitmap picture = BitmapFactory.decodeResource(res, R.drawable.example_picture);
@@ -24,7 +24,9 @@ public class MessageNotification {
         final String title = titleMsj;
         final String text = textMsj;
         Intent intent = new Intent(context, ResponseNotificationActivity.class);
+        intent.putExtra("body", info);
         intent.putExtra("token", token);
+        intent.putExtra("userInfo", userInfo);
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setDefaults(Notification.DEFAULT_ALL)
