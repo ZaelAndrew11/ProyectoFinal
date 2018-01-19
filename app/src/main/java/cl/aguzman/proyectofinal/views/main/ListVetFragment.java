@@ -50,7 +50,7 @@ public class ListVetFragment extends Fragment implements GetContentCallback{
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-        adapter = new ListVetAdapter(this, new Queries().getVetMin().orderByChild("publish").equalTo(true));
+        adapter = new ListVetAdapter(this, new Queries().getVetMin());
         recyclerView.setAdapter(adapter);
 
         new ValidateVetExist(this).validateVet();

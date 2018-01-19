@@ -1,13 +1,30 @@
 package cl.aguzman.proyectofinal.models;
 
 public class Vet {
-    String name, email, address, phone, description, image, uid, key, rut;
+    String name, email, address, commune, city, phone, description, image, uid, key, rut;
     //Object timestamp;
     int score;
 
     boolean publish;
 
     public Vet() {
+    }
+
+
+    public String getCommune() {
+        return commune;
+    }
+
+    public void setCommune(String commune) {
+        this.commune = commune;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getRut() {

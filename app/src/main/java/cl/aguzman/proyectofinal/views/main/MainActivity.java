@@ -1,5 +1,6 @@
 package cl.aguzman.proyectofinal.views.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,11 +14,15 @@ import cl.aguzman.proyectofinal.R;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ListVetFragment.OnVarChangedFromFragment{
 
+    private BottomNavigationView navigation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+
+        getSupportActionBar().setTitle(R.string.app_name);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
         FragmentTransaction fragmentTransaction = sanitizer();
         fragmentTransaction.add(R.id.fragmentsContainer, ListVetFragment.newInstance());
@@ -29,15 +34,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (item.getItemId()) {
             case R.id.navigation_home:
                 replaceFragment(ListVetFragment.newInstance());
+                getSupportActionBar().setTitle(R.string.app_name);
                 return true;
-            case R.id.navigation_dashboard:
+            case R.id.navigation_pets:
                 replaceFragment(ListPetsFragment.newInstance());
+                getSupportActionBar().setTitle(R.string.your_pets);
                 return true;
-            case R.id.navigation_notifications:
+            case R.id.navigation_request_vet:
                 replaceFragment(ListVetRequestFragment.newInstance());
+                getSupportActionBar().setTitle(R.string.vet_request);
                 return true;
             case R.id.navigation_profile:
                 replaceFragment(ProfileFragment.newInstance());
+                getSupportActionBar().setTitle(R.string.your_profile);
                 return true;
         }
         return false;
@@ -67,4 +76,21 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Intent intent = new Intent(this, UploadVetActivity.class);
         startActivity(intent);
     }
+
+
+    @Override
+    public void onBackPressed() {
+        int seletedItemId = navigation.getSelectedItemId();
+        if (R.id.navigation_home != seletedItemId) {
+            setHomeItem(MainActivity.this);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    public static void setHomeItem(Activity activity) {
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) activity.findViewById(R.id.navigation);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+    }
+
 }

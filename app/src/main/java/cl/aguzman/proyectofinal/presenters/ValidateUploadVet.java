@@ -10,9 +10,9 @@ public class ValidateUploadVet {
         this.callback = callback;
     }
 
-    public void validateupload(String name, String email, String address, String phone, String description, String urlImage, String rut) {
+    public void validateupload(String name, String email, String address, String phone, String rut, String commune, String city) {
 
-        if (name.length() > 0 && email.length() > 0 && address.length() > 0 && phone.length() > 0 && description.length() > 0 && rut.length() > 0 && urlImage != null) {
+        if (name.length() > 0 && email.length() > 0 && address.length() > 0 && phone.length() > 0 &&  rut.length() > 0 && commune.length() > 0 && city.length() > 0) {
             if (!new ValidateFields().isValidEmail(email)) {
                 callback.failed(R.string.email_error);
             }else if(!new ValidateFields().isValidPhoneNumber(phone)){

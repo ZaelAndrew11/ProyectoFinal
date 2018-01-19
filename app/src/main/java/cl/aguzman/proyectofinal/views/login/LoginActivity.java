@@ -14,6 +14,7 @@ import java.util.Arrays;
 
 import cl.aguzman.proyectofinal.R;
 import cl.aguzman.proyectofinal.interfaces.ValidateLoginCallback;
+import cl.aguzman.proyectofinal.notifications.ResponseNotificationActivity;
 import cl.aguzman.proyectofinal.presenters.ValidateLogin;
 
 public class LoginActivity extends AppCompatActivity implements ValidateLoginCallback {
@@ -23,7 +24,18 @@ public class LoginActivity extends AppCompatActivity implements ValidateLoginCal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        new ValidateLogin(this).loginValidate();
+
+
+        if (getIntent().getStringExtra("userInfo") != null) {
+            Intent intent = new Intent(this, ResponseNotificationActivity.class);
+            intent.putExtra("userInfo", getIntent().getStringExtra("userInfo"));
+            intent.putExtra("body", getIntent().getStringExtra("info"));
+            intent.putExtra("token", getIntent().getStringExtra("tokenUser"));
+            startActivity(intent);
+            finish();
+        }else {
+            new ValidateLogin(this).loginValidate();
+        }
     }
 
     @Override
@@ -36,8 +48,8 @@ public class LoginActivity extends AppCompatActivity implements ValidateLoginCal
                                 new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
                                 new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build())
                         ).setIsSmartLockEnabled(false)
-                        /*.setTheme(R.style.LoginTheme)
-                        .setLogo(R.mipmap.logo)*/
+                        .setTheme(R.style.LoginTheme)
+                        .setLogo(R.mipmap.logo)
                         .build(),
                 RC_SIGN_IN);
     }
@@ -69,16 +81,6 @@ public class LoginActivity extends AppCompatActivity implements ValidateLoginCal
 
     @Override
     public void logged() {
-        /*String uid = new CurrentUser().getCurrentUid();
-        String name = new CurrentUser().getCurrentUser().getDisplayName();
-        String email = new CurrentUser().email();
-        String token = new FcmToken(this).get();
-        User user = new User();
-        user.setEmail(email);
-        user.setName(name);
-        user.setToken(token);
-        DatabaseReference refUser = new Queries().getUser().child(uid);
-        refUser.setValue(user);*/
         Intent intent = new Intent(this, EndRegisterActivity.class);
         startActivity(intent);
         finish();

@@ -1,7 +1,6 @@
 package cl.aguzman.proyectofinal.presenters;
 
 import android.util.Log;
-import android.widget.ImageButton;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,15 +22,15 @@ public class ValidateDetail {
         this.callback = callback;
     }
 
-    public void validateLike(String key, final ImageButton imageButton){
+    public void validateLike(String key){
         likesRef = new Queries().getLikes().child(new CurrentUser().getCurrentUid()).child(key);
         likesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() == null){
-                    imageButton.setTag("like");
+                    callback.disLike();
                 }else {
-                    imageButton.setTag("dislike");
+                    callback.like();
                 }
             }
 
@@ -51,7 +50,6 @@ public class ValidateDetail {
                     return Transaction.success(mutableData);
                 }
                 if (mutableData.getValue() != null) {
-                    Log.d("SCORE", String.valueOf(score));
                     if (tag.equals("like")) {
                         callback.like();
                         likesRef.setValue(true);

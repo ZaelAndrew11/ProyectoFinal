@@ -11,7 +11,16 @@
         tools:context="cl.aguzman.proyectofinal.views.pets.AddMedicalHistoryDateDialogFragment">
 
         <TextView
-            android:text="Seleccione una Fecha"
+            android:text="Nuevo Registro"
+            android:textAlignment="center"
+            android:textSize="@dimen/text20"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="@string/select_date"
+            android:textAlignment="center"
             android:layout_marginBottom="@dimen/margin_5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -29,14 +38,18 @@
             android:layout_height="100dp"
             android:layout_marginBottom="@dimen/margin_5"
             android:gravity="top"
-            android:hint="Ej: Vacuna antirrábica..." />
+            android:background="@drawable/edittext_style"
+            android:hint="@string/description_medical_hit" />
 
         <Button
             android:id="@+id/addMedicalHistoryBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="OK" />
+            android:layout_marginTop="@dimen/margin_5"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/button_style"
+            android:text="@string/ok" />
 
     </LinearLayout>
 </ScrollView>

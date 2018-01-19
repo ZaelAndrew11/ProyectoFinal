@@ -25,10 +25,15 @@ public class ListVetAdapter extends FirebaseRecyclerAdapter<Vet, ListVetAdapter.
 
     @Override
     protected void populateViewHolder(final VetHolder viewHolder, Vet model, int position) {
+        String getName = model.getName();
         ImageView vetImage = viewHolder.itemLogoVet;
         LinearLayout item = viewHolder.itemVet;
-        Picasso.with(viewHolder.itemLogoVet.getContext()).load(model.getImage()).into(viewHolder.itemLogoVet);
-        viewHolder.itemNameVet.setText(model.getName());
+        if (model.getImage().equals("")){
+            Picasso.with(vetImage.getContext()).load(R.mipmap.placeholder_icon).into(viewHolder.itemLogoVet);
+        }else {
+            Picasso.with(vetImage.getContext()).load(model.getImage()).into(viewHolder.itemLogoVet);
+        }
+        viewHolder.itemNameVet.setText(getName.substring(0,1).toUpperCase()+getName.substring(1));
         viewHolder.itemScoreVet.setText(String.valueOf(model.getScore()));
 
 

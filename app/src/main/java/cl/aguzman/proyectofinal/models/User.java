@@ -1,9 +1,26 @@
 package cl.aguzman.proyectofinal.models;
 
 public class User {
-    String uid, token, email, name, phone, adress;
+    String uid, token, email, name, phone, adress, commune, city;
 
     public User() {
+    }
+
+
+    public String getCommune() {
+        return commune;
+    }
+
+    public void setCommune(String commune) {
+        this.commune = commune;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getPhone() {

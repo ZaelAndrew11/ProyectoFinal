@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -69,9 +70,10 @@ public class AddMedicalHistoryDateDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 int editTextDescription = description.getText().length();
                 String textDescription = description.getText().toString();
+                String keyPush = datesRef.child(new CurrentUser().getCurrentUid()).child(key).push().getKey();
 
                 int day = date.getDayOfMonth();
-                int month = date.getMonth();
+                int month = date.getMonth()+1;
                 int year = date.getYear();
 
                 MedicalHistory medicalHistoryDates = new MedicalHistory();
@@ -79,14 +81,19 @@ public class AddMedicalHistoryDateDialogFragment extends DialogFragment {
                 medicalHistoryDates.setMonth(month);
                 medicalHistoryDates.setYear(year);
                 medicalHistoryDates.setDescriptionMedical(textDescription);
+                medicalHistoryDates.setKey(key);
+                medicalHistoryDates.setKeyMedical(keyPush);
 
-                if(editTextDescription > 10){
-                    datesRef.child(new CurrentUser().getCurrentUid()).child(key).push().setValue(medicalHistoryDates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                if(editTextDescription > 1){
+
+                    datesRef.child(new CurrentUser().getCurrentUid()).child(key).child(keyPush).setValue(medicalHistoryDates).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             getDialog().dismiss();
                         }
                     });
+                }else {
+                    Toast.makeText(getActivity(), getString(R.string.description_medical_empty), Toast.LENGTH_SHORT).show();
                 }
             }
         });

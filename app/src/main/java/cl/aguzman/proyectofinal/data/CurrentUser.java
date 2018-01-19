@@ -9,22 +9,24 @@ public class CurrentUser {
     public FirebaseUser getCurrentUser() {
         return currentUser;
     }
-    public String email(){
+
+    public String email() {
         return getCurrentUser().getEmail();
     }
-    public String getCurrentUid(){
+
+    public String getCurrentUid() {
         return getCurrentUser().getUid();
     }
 
-    public String getImageUser(){
-        return getCurrentUser().getPhotoUrl().toString();
+    public String getImageUser() {
+        String url = "";
+        if (getCurrentUser().getPhotoUrl() != null) {
+            url = getCurrentUser().getPhotoUrl().toString();
+        }
+        return url;
     }
 
-    public String getNameUser(){
+    public String getNameUser() {
         return getCurrentUser().getDisplayName();
-    }
-
-    public String getPhotoUser(){
-        return  getCurrentUser().getPhotoUrl().toString();
     }
 }

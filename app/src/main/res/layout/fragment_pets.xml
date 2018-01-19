@@ -12,6 +12,17 @@
         android:gravity="top"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/messageEmptyTv"
+            android:text="@string/no_pets"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:visibility="gone"
+            android:textSize="@dimen/text20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/listPetsRv"
             android:layout_width="match_parent"

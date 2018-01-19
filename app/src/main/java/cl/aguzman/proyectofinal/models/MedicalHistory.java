@@ -1,8 +1,16 @@
 package cl.aguzman.proyectofinal.models;
 
 public class MedicalHistory {
-    String namePet, photoPet, descriptionMedical, key;
+    String namePet, photoPet, descriptionMedical, key, keyMedical;
     int day, month, year;
+
+    public String getKeyMedical() {
+        return keyMedical;
+    }
+
+    public void setKeyMedical(String keyMedical) {
+        this.keyMedical = keyMedical;
+    }
 
     public int getDay() {
         return day;

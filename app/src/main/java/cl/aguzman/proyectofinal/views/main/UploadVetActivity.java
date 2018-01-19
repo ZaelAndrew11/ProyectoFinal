@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.google.firebase.database.DatabaseReference;
 import com.squareup.picasso.Picasso;
 
@@ -32,15 +33,18 @@ public class UploadVetActivity extends AppCompatActivity implements ValidateUplo
     private ProgressDialog progressDialog;
     private DatabaseReference reference = new Queries().root();
 
-    private ImageView imgLogo;
+    private CircularImageView imgLogo;
+    private Button camPlusBtn;
     private EditText nameVet;
     private EditText rutVet;
     private EditText emailVet;
     private EditText addressVet;
+    private EditText communeVet;
+    private EditText cityVet;
     private EditText phoneVet;
     private EditText descriptionVet;
 
-    private String urlImage;
+    private String urlImage = "";
     private String key;
     private String uid;
 
@@ -48,16 +52,20 @@ public class UploadVetActivity extends AppCompatActivity implements ValidateUplo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_vet);
-        imgLogo = (ImageView) findViewById(R.id.logoVetIv);
+        getSupportActionBar().setTitle(R.string.new_vet_title);
+        camPlusBtn = (Button) findViewById(R.id.camPlusBtn);
+        imgLogo = (CircularImageView) findViewById(R.id.logoVetIv);
         nameVet = (EditText) findViewById(R.id.nameVetEt);
         rutVet = (EditText) findViewById(R.id.rutVetEt);
         emailVet = (EditText) findViewById(R.id.emailVetEt);
         addressVet = (EditText) findViewById(R.id.addressVetEt);
+        communeVet = (EditText) findViewById(R.id.communeVetEt);
+        cityVet = (EditText) findViewById(R.id.cityVetEt);
         phoneVet = (EditText) findViewById(R.id.phoneVetEt);
         descriptionVet = (EditText) findViewById(R.id.descriptionVetEt);
         Button btnUpload = (Button) findViewById(R.id.uploadDataVetbtn);
 
-        imgLogo.setOnClickListener(new View.OnClickListener() {
+        camPlusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -78,10 +86,11 @@ public class UploadVetActivity extends AppCompatActivity implements ValidateUplo
                 String rutCount = rutVet.getText().toString().trim();
                 String emailCount = emailVet.getText().toString().trim();
                 String addressCount = addressVet.getText().toString().trim();
+                String communeCount = communeVet.getText().toString().trim();
+                String citeCount = cityVet.getText().toString().trim();
                 String phoneCount = phoneVet.getText().toString().trim();
-                String descriptionCount = descriptionVet.getText().toString().trim();
 
-                new ValidateUploadVet(UploadVetActivity.this).validateupload(nameCount, emailCount, addressCount, phoneCount, descriptionCount, urlImage, rutCount);
+                new ValidateUploadVet(UploadVetActivity.this).validateupload(nameCount, emailCount, addressCount, phoneCount, rutCount, communeCount, citeCount);
             }
         });
     }
@@ -101,6 +110,7 @@ public class UploadVetActivity extends AppCompatActivity implements ValidateUplo
     @Override
     public void success() {
         progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.loading));
         progressDialog.show();
         new ValidateUploadImageVet(this).uploadImage(urlImage);
     }
@@ -139,8 +149,8 @@ public class UploadVetActivity extends AppCompatActivity implements ValidateUplo
         Vet vet = new Vet();
         Vet vet_min = new Vet();
 
-        vet_min.setName(nameVet.getText().toString());
-        vet_min.setPublish(false);
+        vet_min.setName(nameVet.getText().toString().toLowerCase());
+        vet_min.setPublish(true);
         vet_min.setUid(uid);
         vet_min.setKey(key);
         vet_min.setScore(0);
@@ -150,6 +160,8 @@ public class UploadVetActivity extends AppCompatActivity implements ValidateUplo
         vet.setRut(rutVet.getText().toString());
         vet.setEmail(emailVet.getText().toString());
         vet.setAddress(addressVet.getText().toString());
+        vet.setCommune(communeVet.getText().toString());
+        vet.setCity(cityVet.getText().toString());
         vet.setPhone(phoneVet.getText().toString());
         vet.setDescription(descriptionVet.getText().toString());
         vet.setScore(0);

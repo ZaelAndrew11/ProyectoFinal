@@ -9,16 +9,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -39,19 +40,16 @@ import cl.aguzman.proyectofinal.models.User;
 import cl.aguzman.proyectofinal.presenters.ValidateEndRegister;
 import cl.aguzman.proyectofinal.views.login.LoginActivity;
 
-public class ProfileFragment extends Fragment implements ValidateRegisterCallback{
+public class ProfileFragment extends Fragment implements ValidateRegisterCallback {
 
     private DatabaseReference userRef;
-    private EditText nameProfile;
-    private EditText addressProfile;
-    private EditText emailProfile;
-    private EditText phoneProfile;
+    private EditText nameProfile, addressProfile, emailProfile, phoneProfile, communeProfile, cityProfile;
     private ProgressDialog progressDialog;
 
     public ProfileFragment() {
     }
 
-    public static ProfileFragment newInstance(){
+    public static ProfileFragment newInstance() {
         return new ProfileFragment();
     }
 
@@ -64,9 +62,11 @@ public class ProfileFragment extends Fragment implements ValidateRegisterCallbac
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         progressDialog = new ProgressDialog(getActivity());
-        final ImageView imageProfile = (ImageView) view.findViewById(R.id.photoProfileIv);
+        final CircularImageView imageProfile = (CircularImageView) view.findViewById(R.id.photoProfileIv);
         nameProfile = (EditText) view.findViewById(R.id.userNameProfileEt);
         addressProfile = (EditText) view.findViewById(R.id.userAddressProfileEt);
+        communeProfile = (EditText) view.findViewById(R.id.userCommuneProfileEt);
+        cityProfile = (EditText) view.findViewById(R.id.userCityProfileEt);
         emailProfile = (EditText) view.findViewById(R.id.userEmailProfileEt);
         phoneProfile = (EditText) view.findViewById(R.id.userPhoneProfileEt);
         Button updateBtn = (Button) view.findViewById(R.id.editProfileBtn);
@@ -77,26 +77,38 @@ public class ProfileFragment extends Fragment implements ValidateRegisterCallbac
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-                Picasso.with(imageProfile.getContext()).load(new CurrentUser().getPhotoUser()).into(imageProfile);
+
+                if (TextUtils.isEmpty(new CurrentUser().getImageUser())) {
+                    Picasso.with(imageProfile.getContext()).load(R.mipmap.ic_person_black_24dp).into(imageProfile);
+                } else {
+                    Picasso.with(imageProfile.getContext()).load(new CurrentUser().getImageUser()).into(imageProfile);
+                }
+
                 nameProfile.setText(user.getName());
                 addressProfile.setText(user.getAdress());
+                communeProfile.setText(user.getCommune());
+                cityProfile.setText(user.getCity());
                 emailProfile.setText(user.getEmail());
                 phoneProfile.setText(user.getPhone());
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
         });
 
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 progressDialog.show();
+                progressDialog.setMessage(getString(R.string.loading));
                 String name = nameProfile.getText().toString();
                 String email = emailProfile.getText().toString();
                 String phone = phoneProfile.getText().toString();
                 String address = addressProfile.getText().toString();
-                new ValidateEndRegister(ProfileFragment.this).validateRegister(name, email, phone, address);
+                String commune = communeProfile.getText().toString();
+                String city = cityProfile.getText().toString();
+                new ValidateEndRegister(ProfileFragment.this).validateRegister(name, email, phone, address, commune, city);
             }
         });
 
@@ -108,10 +120,12 @@ public class ProfileFragment extends Fragment implements ValidateRegisterCallbac
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        progressDialog.setMessage(getString(R.string.loading));
                         progressDialog.show();
                         DatabaseReference myInfo = new Queries().getUser().child(new CurrentUser().getCurrentUid());
                         DatabaseReference userDelete = new Queries().getUserdelete().child(new CurrentUser().getCurrentUid());
                         DatabaseReference vets = new Queries().getVet().child(new CurrentUser().getCurrentUid());
+                        final DatabaseReference vetrefRequest = new Queries().getVetRequested().child(new CurrentUser().getCurrentUid());
                         User user = new User();
                         user.setName(nameProfile.getText().toString());
                         user.setEmail(emailProfile.getText().toString());
@@ -120,37 +134,11 @@ public class ProfileFragment extends Fragment implements ValidateRegisterCallbac
                         userDelete.setValue(user);
                         myInfo.removeValue();
 
-                        vets.addListenerForSingleValueEvent(new ValueEventListener() {
+                        vetrefRequest.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.getValue() != null){
-                                    String userVetKey = null;
-                                    for (DataSnapshot ds : dataSnapshot.getChildren()){
-                                        userVetKey = ds.getKey();
-                                    }
-                                    DatabaseReference vetref = new Queries().getVetMin().child(userVetKey);
-                                    vetref.child("publish").setValue(false).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                                            FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                                            currentUser.delete();
-                                            AuthUI.getInstance().signOut(getActivity()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                                    startActivity(intent);
-                                                    getActivity().finish();
-                                                    getActivity().finishAffinity();
-                                                }
-                                            });
-                                        }
-                                    });
-                                }else {
-                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                    startActivity(intent);
-                                    getActivity().finish();
-                                    getActivity().finishAffinity();
+                                    vetrefRequest.removeValue();
                                 }
                             }
 
@@ -158,9 +146,38 @@ public class ProfileFragment extends Fragment implements ValidateRegisterCallbac
                             public void onCancelled(DatabaseError databaseError) {}
                         });
 
+                        vets.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.getValue() != null) {
+                                    String userVetKey = "";
+                                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                        userVetKey = ds.getKey();
+                                    }
+                                    DatabaseReference vetref = new Queries().getVetMin().child(userVetKey);
+                                    vetref.removeValue();
+                                }
+                                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                                currentUser.delete();
+                                AuthUI.getInstance().signOut(getActivity()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
+                                        getActivity().finishAffinity();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+
                     }
-                });
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -187,6 +204,8 @@ public class ProfileFragment extends Fragment implements ValidateRegisterCallbac
         userUpdate.setEmail(emailProfile.getText().toString());
         userUpdate.setPhone(phoneProfile.getText().toString());
         userUpdate.setAdress(addressProfile.getText().toString());
+        userUpdate.setCommune(communeProfile.getText().toString());
+        userUpdate.setCity(cityProfile.getText().toString());
         userUpdate.setToken(new FcmToken(getActivity()).get());
         userRef.setValue(userUpdate).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -198,8 +217,10 @@ public class ProfileFragment extends Fragment implements ValidateRegisterCallbac
     }
 
     @Override
-    public void successOnload() {}
+    public void successOnload() {
+    }
 
     @Override
-    public void defaultOnload() {}
+    public void defaultOnload() {
+    }
 }

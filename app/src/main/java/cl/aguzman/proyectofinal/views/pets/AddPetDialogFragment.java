@@ -53,8 +53,8 @@ public class AddPetDialogFragment extends DialogFragment implements ValidatePetC
     private String uid;
     private String petName;
 
-    ProgressDialog progressDialog;
-    Dialog dialog;
+    private ProgressDialog progressDialog;
+    private Dialog dialog;
 
     public AddPetDialogFragment() {
     }

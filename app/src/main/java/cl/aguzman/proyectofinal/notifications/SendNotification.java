@@ -23,7 +23,7 @@ public class SendNotification {
     }
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    public void sendNotification(final String token, final String title, final String body, final String phone, final String address, final ArrayList array, final ProgressDialog progressDialog, final String tokenUser) {
+    public void sendNotification(final String token, final String title, final String body, final String phone, final String address, final String commune, final String city, final ArrayList array, final ProgressDialog progressDialog, final String tokenUser) {
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Enviando notificación");
         progressDialog.show();
@@ -36,10 +36,12 @@ public class SendNotification {
                     JSONObject json=new JSONObject();
                     JSONObject infoJson=new JSONObject();
                     JSONObject dataJson = new JSONObject();
-                    userInfo.add(new CurrentUser().getPhotoUser());
+                    userInfo.add(new CurrentUser().getImageUser());
                     userInfo.add(new CurrentUser().getNameUser());
                     userInfo.add(phone);
                     userInfo.add(address);
+                    userInfo.add(commune);
+                    userInfo.add(city);
                     infoJson.put("body",body);
                     infoJson.put("title",title);
                     dataJson.put("token", token);

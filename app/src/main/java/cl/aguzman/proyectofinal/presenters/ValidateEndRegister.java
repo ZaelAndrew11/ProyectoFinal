@@ -34,8 +34,8 @@ public class ValidateEndRegister {
         });
     }
 
-    public void validateRegister(String name, String email, String number, String adress){
-        if(name.length() > 0 && email.length() > 0 && number.length() > 0 && adress.length() > 0){
+    public void validateRegister(String name, String email, String number, String adress, String commune, String city){
+        if(name.length() > 0 && email.length() > 0 && number.length() > 0 && adress.length() > 0 && commune.length() > 0 && city.length() > 0){
             if(!new ValidateFields().isValidEmail(email)){
                 callback.failed(R.string.email_error);
             }else if(!new ValidateFields().isValidPhoneNumber(number)){

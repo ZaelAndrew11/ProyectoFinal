@@ -8,37 +8,91 @@
     tools:context="cl.aguzman.proyectofinal.notifications.ResponseNotificationActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
-        <ImageView
+        <com.github.siyamed.shapeimageview.CircularImageView
             android:id="@+id/photoUserIv"
             android:layout_width="70dp"
-            android:layout_height="70dp" />
+            android:layout_height="70dp"
+            android:layout_marginBottom="@dimen/margin_5"
+            android:layout_marginTop="@dimen/activity_horizontal_margin" />
 
         <TextView
             android:id="@+id/nameUserTv"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text20" />
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/phoneUserTv"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/addressUserTv"
+                <ImageView
+                    android:id="@+id/phoneUserIv"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                    android:src="@mipmap/ic_phone_black_24dp" />
+
+                <TextView
+                    android:id="@+id/phoneUserTv"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text16" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                    android:src="@mipmap/ic_location_on_black_24dp" />
+
+                <TextView
+                    android:id="@+id/addressUserTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/text16" />
+
+                <TextView
+                    android:id="@+id/communeUserTv"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/text16"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/cityUserTv"
+                    android:textSize="@dimen/text16"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -46,9 +100,9 @@
 
     <LinearLayout
         android:id="@+id/contentInfo"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     </LinearLayout>
 
@@ -56,6 +110,10 @@
         android:id="@+id/responseBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Responder Solicitud" />
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:background="@drawable/button_style"
+        android:text="@string/response_notification"
+        android:textColor="@color/colorWhite" />
 
 </LinearLayout>

@@ -33,11 +33,7 @@ import cl.aguzman.proyectofinal.views.pets.NamePetsCheckDialogFragment;
 public class DetailActivity extends AppCompatActivity implements DetailCallback {
 
     public static final String DIALOG_NAMES_PETS_CHECK = "CL.AGUZMAN.PROYECTOFINAL.DIALOG_NAMES_PETS_CHECK";
-    private String tel;
-    private String address;
-    private String token;
-    private String uid;
-    private String key;
+    private String tel, phoneCall, address, commune, city, token, uid, key;
     private TextView textNotPets;
     private TextView detailScoreTv;
     private Button notPetBtn;
@@ -58,6 +54,9 @@ public class DetailActivity extends AppCompatActivity implements DetailCallback 
                 User user = dataSnapshot.getValue(User.class);
                 tel = user.getPhone();
                 address = user.getAdress();
+                commune = user.getCommune();
+                city = user.getCity();
+
             }
 
             @Override
@@ -79,6 +78,8 @@ public class DetailActivity extends AppCompatActivity implements DetailCallback 
         final TextView detailEmailTv = (TextView) findViewById(R.id.detailEmailTv);
         final TextView detailPhoneTv = (TextView) findViewById(R.id.detailPhoneTv);
         final TextView detailDescriptionTv = (TextView) findViewById(R.id.detailDescriptionTv);
+        final TextView detailCommuneTv = (TextView) findViewById(R.id.detailCommuneTv);
+        final TextView detailCityTv = (TextView) findViewById(R.id.detailCityTv);
         scoreBtn = (ImageButton) findViewById(R.id.likeIb);
         detailCallBtn = (Button) findViewById(R.id.callBtn);
         detailSolicitBtn = (Button) findViewById(R.id.solicitBtn);
@@ -89,10 +90,15 @@ public class DetailActivity extends AppCompatActivity implements DetailCallback 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Vet vet = dataSnapshot.getValue(Vet.class);
-                Picasso.with(detailImgVet.getContext()).load(vet.getImage()).into(detailImgVet);
+                getSupportActionBar().setTitle(vet.getName());
+                phoneCall = vet.getPhone();
+                if (vet.getImage().equals("")){Picasso.with(detailImgVet.getContext()).load(R.mipmap.logo).into(detailImgVet);
+                }else {Picasso.with(detailImgVet.getContext()).load(vet.getImage()).into(detailImgVet);}
                 detailNameTv.setText(vet.getName());
                 detailScoreTv.setText(String.valueOf(vet.getScore()));
                 detailAdressTv.setText(vet.getAddress());
+                detailCommuneTv.setText(vet.getCommune());
+                detailCityTv.setText(vet.getCity());
                 detailEmailTv.setText(vet.getEmail());
                 detailPhoneTv.setText(vet.getPhone());
                 detailDescriptionTv.setText(vet.getDescription());
@@ -112,7 +118,7 @@ public class DetailActivity extends AppCompatActivity implements DetailCallback 
         detailCallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", tel, null));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "+569"+phoneCall, null));
                 if (ActivityCompat.checkSelfPermission(DetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     startActivity(intent);
                     return;
@@ -150,14 +156,14 @@ public class DetailActivity extends AppCompatActivity implements DetailCallback 
             public void onCancelled(DatabaseError databaseError) {}
         });
         FragmentManager fragmentManager = getSupportFragmentManager();
-        NamePetsCheckDialogFragment checkFragment = NamePetsCheckDialogFragment.newInstance(token, tel, address, key);
+        NamePetsCheckDialogFragment checkFragment = NamePetsCheckDialogFragment.newInstance(token, tel, address, commune, city, key);
         checkFragment.show(fragmentManager, DIALOG_NAMES_PETS_CHECK);
         checkFragment.dismiss();
     }
 
     private void showDialogModal() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        NamePetsCheckDialogFragment checkFragment = NamePetsCheckDialogFragment.newInstance(token, tel, address, key);
+        NamePetsCheckDialogFragment checkFragment = NamePetsCheckDialogFragment.newInstance(token, tel, address, commune, city, key);
         checkFragment.show(fragmentManager, DIALOG_NAMES_PETS_CHECK);
     }
 
@@ -165,19 +171,29 @@ public class DetailActivity extends AppCompatActivity implements DetailCallback 
     protected void onResume() {
         super.onResume();
         new ValidateDetail(this).verificationPets(uid);
-        new ValidateDetail(this).validateLike(key, scoreBtn);
+        new ValidateDetail(this).validateLike(key);
     }
 
     @Override
     public void like() {
-        //scoreBtn.setBackgroundResource(R.mipmap.ic_mood_bad_white_24dp);
-        scoreBtn.setTag("dislike");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                scoreBtn.setImageResource(R.mipmap.ic_favorite_white_24dp);
+                scoreBtn.setTag("dislike");
+            }
+        });
     }
 
     @Override
     public void disLike() {
-        //scoreBtn.setBackgroundResource(R.mipmap.ic_mood_white_24dp);
-        scoreBtn.setTag("like");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                scoreBtn.setImageResource(R.mipmap.ic_favorite_border_white_24dp);
+                scoreBtn.setTag("like");
+            }
+        });
     }
 
     @Override
@@ -197,6 +213,5 @@ public class DetailActivity extends AppCompatActivity implements DetailCallback 
         notPetBtn.setVisibility(View.GONE);
         detailSolicitBtn.setVisibility(View.GONE);
         detailCallBtn.setVisibility(View.GONE);
-        scoreBtn.setEnabled(false);
     }
 }

@@ -34,29 +34,42 @@ public class ValidateUploadImageVet {
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         StorageReference storageReference = firebaseStorage.getReferenceFromUrl(url);
 
-        storageReference.putFile(Uri.parse(path)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                @SuppressWarnings("VisibleForTests") String url = taskSnapshot.getDownloadUrl().toString();
-                url = url.split("&token=")[0];
-
-                Map<String, Object > map = new HashMap<String, Object>();
-
-                callback.successImage(map, url);
-
-                reference.updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        callback.successUpload();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        callback.faildUpload();
-                    }
-                });
-            }
-        });
+        if (path.equals("")){
+            url = "";
+            Map<String, Object > map = new HashMap<String, Object>();
+            callback.successImage(map, url);
+            reference.updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    callback.successUpload();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    callback.faildUpload();
+                }
+            });
+        }else {
+            storageReference.putFile(Uri.parse(path)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    @SuppressWarnings("VisibleForTests") String url = taskSnapshot.getDownloadUrl().toString();
+                    url = url.split("&token=")[0];
+                    Map<String, Object > map = new HashMap<String, Object>();
+                    callback.successImage(map, url);
+                    reference.updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            callback.successUpload();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            callback.faildUpload();
+                        }
+                    });
+                }
+            });
+        }
     }
 }

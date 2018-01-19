@@ -33,22 +33,21 @@ public class NamePetsCheckDialogFragment extends DialogFragment implements CallV
     private Button button;
     private ListPetsAdapterCheck adapterCheck;
     private Dialog dialog;
-    private String tokenVet;
-    private String phone;
-    private String address;
-    private String key;
+    private String tokenVet, phone, address, commune, city, key;
     private ArrayList infoArr;
     private ProgressDialog progressDialog;
 
     public NamePetsCheckDialogFragment() {
     }
 
-    public static NamePetsCheckDialogFragment newInstance(String tokenVet, String phone, String adreess, String key) {
+    public static NamePetsCheckDialogFragment newInstance(String tokenVet, String phone, String adreess, String commune, String city, String key) {
         NamePetsCheckDialogFragment petsCheckDialogFragment = new NamePetsCheckDialogFragment();
         Bundle args = new Bundle();
         args.putString("tokenVet", tokenVet);
         args.putString("phone", phone);
         args.putString("address", adreess);
+        args.putString("commune", commune);
+        args.putString("city", city);
         args.putString("key", key);
         petsCheckDialogFragment.setArguments(args);
         return petsCheckDialogFragment;
@@ -61,6 +60,8 @@ public class NamePetsCheckDialogFragment extends DialogFragment implements CallV
         tokenVet = getArguments().getString("tokenVet");
         phone = getArguments().getString("phone");
         address = getArguments().getString("address");
+        commune = getArguments().getString("commune");
+        city = getArguments().getString("city");
         key = getArguments().getString("key");
     }
 
@@ -90,7 +91,7 @@ public class NamePetsCheckDialogFragment extends DialogFragment implements CallV
             @Override
             public void onClick(View v) {
                 String tokenUser =  new FcmToken(getActivity()).get();
-                new SendNotification(NamePetsCheckDialogFragment.this).sendNotification(tokenVet, "Solicitud de veterinario", "Por favor necesito un veterinario para mi perrito", phone, address, infoArr, progressDialog, tokenUser);
+                new SendNotification(NamePetsCheckDialogFragment.this).sendNotification(tokenVet, getString(R.string.vet_request_text), getString(R.string.vet_request_second_text), phone, address, commune, city, infoArr, progressDialog, tokenUser);
             }
         });
     }
@@ -114,8 +115,10 @@ public class NamePetsCheckDialogFragment extends DialogFragment implements CallV
         infoArr = list;
         if (infoArr.size() > 0) {
             button.setEnabled(true);
+            button.setBackgroundResource(R.drawable.button_style);
         } else {
             button.setEnabled(false);
+            button.setBackgroundResource(R.drawable.button_style_disabled);
         }
     }
 

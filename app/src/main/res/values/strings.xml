@@ -1,11 +1,19 @@
 <resources>
-    <string name="app_name">ProyectoFinal</string>
+    <string name="app_name">Ami</string>
 
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_profile">Profile</string>
+    <string name="title_pets">Tus Mascotas</string>
+    <string name="title_request">Veterinarios Solicitados</string>
+    <string name="title_profile">Perfil</string>
+    
+    
+    <!-- TITLES -->
+    <string name="your_pets">Tus Mascotas</string>
+    <string name="vet_request">Veterinarios ya Solicitados</string>
+    <string name="your_profile">Tu perfil</string>
+    <string name="medical_history_title">Historial médico de</string>
+    <string name="new_vet_title">Nuevo veterinario</string>
 
     <!-- FACEBOOK -->
     <string name="facebook_application_id" translatable="false">309408009557224</string>
@@ -18,18 +26,24 @@
 
     <!-- UPLOAD VET -->
     <string name="name_vet">Nombre</string>
-    <string name="rut_vet">Ejemplo: 17235xxx-8</string>
+    <string name="rut_vet">RUT</string>
     <string name="email_vet">Email</string>
     <string name="adress_vet">Dirección</string>
-    <string name="phone_vet">Telefóno celular</string>
-    <string name="description_vet">Descripción</string>
+    <string name="phone">Celular</string>
+    <string name="description_vet">Descripción (Opcional)</string>
     <string name="button_upload_vet">Enviar</string>
-    <string name="alert">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
+    <string name="commune">Comuna</string>
+    <string name="city">Ciudad</string>
+    <string name="alert">Muchas gracias por registrarse, ahora podrá comenzar a recibir solicitudes de atención.</string>
     <string name="alert_title">Aviso</string>
 
     <!-- GENERICOS -->
     <string name="ok">OK</string>
     <string name="cancel">CANCEL</string>
+    <string name="name">Nombre</string>
+    <string name="loading">Cargando</string>
+    <string name="example_phone">Ejemplo: 89562xxx</string>
+    <string name="example_rut">Ejemplo: 16392xxx-x</string>
 
     <!-- ADD VET -->
     <string name="missing_fields">Faltan campos por completar</string>
@@ -37,34 +51,55 @@
     <string name="phone_error">Número telefónico no valido</string>
     <string name="rut_error">RUT no valido</string>
     <string name="fail_upload">Error al subir nueva información, por favor inténtelo nuevamente.</string>
+    <string name="no_request_vet">Aun no has solicitado ningún veterinario.</string>
 
     <!-- ADD PET -->
     <string name="hint_name_pet">Nombre de su Mascota</string>
 
     <!-- PROFILE -->
     <string name="message_delete">¿Seguro que deseas eliminar tu cuenta?</string>
+    <string name="update_profile">Actualizar Perfil</string>
+    <string name="delete_profile">Eliminar Cuenta</string>
 
     <!-- DETAIL -->
     <string name="call_btn">Llamado de Emergencia</string>
     <string name="solicit_btn">Solicitar veterinario</string>
     <string name="add_pet_btn">Agregar Mascota</string>
-    <string name="notification_ok">Su solicitud ha sido recibida exitosamente, por favor espere un momento a que sea respondida o bien puede contactarse directamente con el botón llamado de emergencia.</string>
+    <string name="notification_ok">Su solicitud ha sido enviada exitosamente, por favor espere un momento a que sea respondida o bien puede contactarse directamente con el botón llamado de emergencia.</string>
     <string name="notificartion_fail">Ups!! Ha ocurrido un error al enviar la solicitud, por favor inténtelo de nuevo más tarde o contáctese directamente con el botón llamado de emergencia.</string>
+    <string name="direccion">Dirección</string>
+    <string name="email">Email</string>
+    <string name="telefono">Telefóno</string>
+    <string name="pets_check_title">Selecciona una o más de tus mascotas para ser atendidas</string>
 
     <!-- PET -->
     <string name="pet_exist">Nombre de mascota ya existe</string>
     <string name="error_pet">Error al susbir nueva mascota</string>
+    <string name="no_pets">Aun no tienes mascotas  registradas.</string>
 
+    <!-- HISTORIAL MEDICO  -->
+    <string name="description_medical_hit">Ej: Vacuna antirrábica...</string>
+    <string name="select_date">Seleccione una Fecha</string>
+    <string name="new_register">Nuevo Registro</string>
+    <string name="description_medical_empty">Debe ingresar alguna descripción para el historial</string>
+    <string name="remove_register">¿Eliminar registro?</string>
+
+    <!-- RESPONSE NOTIFICATION -->
+    <string name="response_notification">Responder Solicitud</string>
+    <string name="message_vet">He recibido su solicitud exitosamente.</string>
+    <string name="response_ok">La respuesta fue enviada satisfactoriamente.</string>
+    <string name="response_faild">Ups! Ha ocurrido un error al enviar la respuesta, inténtelo de nuevo o comuníquese directamente llamando al usuario.</string>
     <string name="text_not_pet">No tienes mascotas ingresadas, para solicitar un veterinario debes agregar una.</string>
-
-
     <string name="message_notification_title_template">Message: %1$s</string>
+    <string name="vet_request_text">Solicitud de veterinario"</string>
+    <string name="vet_request_second_text">Por favor necesito atención veterinaria para mi mascota</string>
+    <string name="vet_response_text">Voy enseguida</string>
+    <string name="vet_response_second_text">El veterinario ha respondido exitosamente a su solicitud</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_medical_history_pet">MedicalHistoryPetActivity</string>
-
     <string name="action_settings">Settings</string>
 
 </resources>

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_horizontal_margin"
+    android:layout_marginBottom="65dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_medical_history_pet">
 
@@ -13,6 +14,14 @@
         android:layout_height="match_parent"
         android:gravity="top"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/medicalHistoryTitleTv"
+            android:textSize="@dimen/text20"
+            android:paddingTop="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/listMedicalHistoryRv"

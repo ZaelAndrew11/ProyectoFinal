@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/margin_5"
-    android:padding="@dimen/margin_5"
-    android:background="@color/colorGray"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:background="@drawable/border_color"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,20 +13,20 @@
         android:orientation="horizontal">
 
         <TextView
+            android:textSize="@dimen/text20"
             android:id="@+id/dayItemTv"
-            android:text="10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
 
         <TextView
-            android:text="11"
+            android:textSize="@dimen/text20"
             android:id="@+id/monthItemTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:text="2017"
+            android:textSize="@dimen/text20"
             android:id="@+id/yearItemTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -36,13 +36,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in "
             android:id="@+id/descriptionItemTv"
+            android:textSize="@dimen/text16"
+            android:gravity="center_vertical"
+            android:layout_marginRight="@dimen/margin_5"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/trashIv"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:src="@mipmap/ic_delete_forever_black_24dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
 
     </LinearLayout>
 

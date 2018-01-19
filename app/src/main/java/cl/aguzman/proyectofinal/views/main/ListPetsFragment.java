@@ -12,20 +12,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.firebase.database.DatabaseReference;
 
 import cl.aguzman.proyectofinal.R;
 import cl.aguzman.proyectofinal.adapters.ListPetsAdapter;
 import cl.aguzman.proyectofinal.data.CurrentUser;
 import cl.aguzman.proyectofinal.data.Queries;
 import cl.aguzman.proyectofinal.interfaces.GetMedicalHistory;
+import cl.aguzman.proyectofinal.interfaces.ValidateEmptyListsCallback;
+import cl.aguzman.proyectofinal.presenters.ValidateEmptyLists;
 import cl.aguzman.proyectofinal.views.pets.AddPetDialogFragment;
 import cl.aguzman.proyectofinal.views.pets.MedicalHistoryPetActivity;
 
-public class ListPetsFragment extends Fragment implements GetMedicalHistory{
+public class ListPetsFragment extends Fragment implements GetMedicalHistory, ValidateEmptyListsCallback{
 
     public static final String DIALOG = "CL.AGUZMAN.PROYECTOFINAL.DIALOG";
     private ListPetsAdapter adapter;
     private RecyclerView recyclerView;
+    private TextView messageEmpty;
+    private DatabaseReference reference;
 
     public ListPetsFragment() {
     }
@@ -43,6 +50,11 @@ public class ListPetsFragment extends Fragment implements GetMedicalHistory{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        reference = new Queries().getPetsnames().child(new CurrentUser().getCurrentUid());
+        new ValidateEmptyLists(this).validate(reference);
+        messageEmpty = (TextView) view.findViewById(R.id.messageEmptyTv);
+
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.plusPetsBtn);
         recyclerView = (RecyclerView) view.findViewById(R.id.listPetsRv);
 
@@ -76,4 +88,16 @@ public class ListPetsFragment extends Fragment implements GetMedicalHistory{
         intent.putExtra("key", key);
         startActivity(intent);
     }
+
+    @Override
+    public void emptyList() {
+        messageEmpty.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void notEmptyList() {
+        messageEmpty.setVisibility(View.GONE);
+    }
+
+
 }

@@ -14,7 +14,7 @@ public class ValidateFields {
     }
 
     public boolean isValidPhoneNumber(CharSequence phoneNumber) {
-        if (!TextUtils.isEmpty(phoneNumber)) {
+        if (!TextUtils.isEmpty(phoneNumber) && phoneNumber.length() == 8) {
             return Patterns.PHONE.matcher(phoneNumber).matches();
         }
         return false;
