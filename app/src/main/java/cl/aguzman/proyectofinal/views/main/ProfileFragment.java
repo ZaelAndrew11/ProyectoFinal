@@ -23,8 +23,6 @@ import com.github.siyamed.shapeimageview.CircularImageView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +44,7 @@ public class ProfileFragment extends Fragment implements ValidateRegisterCallbac
     private EditText nameProfile, addressProfile, emailProfile, phoneProfile, communeProfile, cityProfile;
     private ProgressDialog progressDialog;
 
+
     public ProfileFragment() {
     }
 
@@ -61,6 +60,8 @@ public class ProfileFragment extends Fragment implements ValidateRegisterCallbac
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
         progressDialog = new ProgressDialog(getActivity());
         final CircularImageView imageProfile = (CircularImageView) view.findViewById(R.id.photoProfileIv);
         nameProfile = (EditText) view.findViewById(R.id.userNameProfileEt);
@@ -122,10 +123,12 @@ public class ProfileFragment extends Fragment implements ValidateRegisterCallbac
                     public void onClick(DialogInterface dialog, int which) {
                         progressDialog.setMessage(getString(R.string.loading));
                         progressDialog.show();
+
                         DatabaseReference myInfo = new Queries().getUser().child(new CurrentUser().getCurrentUid());
                         DatabaseReference userDelete = new Queries().getUserdelete().child(new CurrentUser().getCurrentUid());
                         DatabaseReference vets = new Queries().getVet().child(new CurrentUser().getCurrentUid());
-                        final DatabaseReference vetrefRequest = new Queries().getVetRequested().child(new CurrentUser().getCurrentUid());
+
+
                         User user = new User();
                         user.setName(nameProfile.getText().toString());
                         user.setEmail(emailProfile.getText().toString());
@@ -134,16 +137,19 @@ public class ProfileFragment extends Fragment implements ValidateRegisterCallbac
                         userDelete.setValue(user);
                         myInfo.removeValue();
 
+
+                        final DatabaseReference vetrefRequest = new Queries().getVetRequested().child(new CurrentUser().getCurrentUid());
                         vetrefRequest.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.getValue() != null){
+                                if (dataSnapshot.getValue() != null) {
                                     vetrefRequest.removeValue();
                                 }
                             }
 
                             @Override
-                            public void onCancelled(DatabaseError databaseError) {}
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
                         });
 
                         vets.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -157,9 +163,6 @@ public class ProfileFragment extends Fragment implements ValidateRegisterCallbac
                                     DatabaseReference vetref = new Queries().getVetMin().child(userVetKey);
                                     vetref.removeValue();
                                 }
-                                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                                currentUser.delete();
                                 AuthUI.getInstance().signOut(getActivity()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
@@ -175,7 +178,6 @@ public class ProfileFragment extends Fragment implements ValidateRegisterCallbac
                             public void onCancelled(DatabaseError databaseError) {
                             }
                         });
-
                     }
                 }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
@@ -187,7 +189,6 @@ public class ProfileFragment extends Fragment implements ValidateRegisterCallbac
                 alertDialog.show();
             }
         });
-
     }
 
     @Override

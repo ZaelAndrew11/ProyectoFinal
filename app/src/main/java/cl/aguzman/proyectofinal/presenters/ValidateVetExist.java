@@ -18,7 +18,7 @@ public class ValidateVetExist {
     }
 
     public void validateVet(){
-        DatabaseReference ref = new Queries().getVet().child(new CurrentUser().getCurrentUid());
+        DatabaseReference ref = new Queries().getVetMin().child(new CurrentUser().getCurrentUid());
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

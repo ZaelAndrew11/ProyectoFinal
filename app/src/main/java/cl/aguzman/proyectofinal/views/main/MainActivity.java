@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.rampo.updatechecker.UpdateChecker;
+
 import cl.aguzman.proyectofinal.R;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ListVetFragment.OnVarChangedFromFragment{
@@ -20,8 +22,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         getSupportActionBar().setTitle(R.string.app_name);
+
+        UpdateChecker updateChecker = new UpdateChecker(this);
+        updateChecker.start();
+
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
         FragmentTransaction fragmentTransaction = sanitizer();

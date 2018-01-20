@@ -35,7 +35,7 @@ public class EndRegisterActivity extends AppCompatActivity implements ValidateRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_register);
-
+        getSupportActionBar().setTitle(R.string.end_register);
         dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
         dialog.setMessage(getString(R.string.loading));

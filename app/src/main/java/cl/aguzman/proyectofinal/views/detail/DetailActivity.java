@@ -118,7 +118,7 @@ public class DetailActivity extends AppCompatActivity implements DetailCallback 
         detailCallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "+569"+phoneCall, null));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "9"+phoneCall, null));
                 if (ActivityCompat.checkSelfPermission(DetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     startActivity(intent);
                     return;

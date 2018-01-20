@@ -31,6 +31,7 @@
     <string name="adress_vet">Dirección</string>
     <string name="phone">Celular</string>
     <string name="description_vet">Descripción (Opcional)</string>
+    <string name="description">Descripción</string>
     <string name="button_upload_vet">Enviar</string>
     <string name="commune">Comuna</string>
     <string name="city">Ciudad</string>
@@ -44,6 +45,7 @@
     <string name="loading">Cargando</string>
     <string name="example_phone">Ejemplo: 89562xxx</string>
     <string name="example_rut">Ejemplo: 16392xxx-x</string>
+    <string name="end_register">Finalizar Registro</string>
 
     <!-- ADD VET -->
     <string name="missing_fields">Faltan campos por completar</string>
@@ -74,7 +76,7 @@
 
     <!-- PET -->
     <string name="pet_exist">Nombre de mascota ya existe</string>
-    <string name="error_pet">Error al susbir nueva mascota</string>
+    <string name="error_pet">Error al subir nueva mascota</string>
     <string name="no_pets">Aun no tienes mascotas  registradas.</string>
 
     <!-- HISTORIAL MEDICO  -->

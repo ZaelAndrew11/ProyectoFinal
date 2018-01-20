@@ -84,7 +84,7 @@ public class ResponseNotificationActivity extends AppCompatActivity implements V
         phoneUserIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "+569" + phoneUser.getText().toString(), null));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "9" + phoneUser.getText().toString(), null));
                 if (ActivityCompat.checkSelfPermission(ResponseNotificationActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     startActivity(intent);
                     return;

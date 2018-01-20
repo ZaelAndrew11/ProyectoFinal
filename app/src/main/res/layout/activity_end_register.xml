@@ -95,6 +95,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginTop="@dimen/margin_5"
+            android:drawablePadding="@dimen/activity_horizontal_margin"
+            android:drawableLeft="@mipmap/ic_assignment_white_24dp"
             android:background="@drawable/button_style"
             android:text="FINALIZAR REGISTRO"
             android:textColor="@color/colorWhite" />

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
@@ -16,6 +17,7 @@ import cl.aguzman.proyectofinal.R;
 import cl.aguzman.proyectofinal.interfaces.ValidateLoginCallback;
 import cl.aguzman.proyectofinal.notifications.ResponseNotificationActivity;
 import cl.aguzman.proyectofinal.presenters.ValidateLogin;
+import io.fabric.sdk.android.Fabric;
 
 public class LoginActivity extends AppCompatActivity implements ValidateLoginCallback {
     private static final int RC_SIGN_IN = 666;
@@ -23,6 +25,7 @@ public class LoginActivity extends AppCompatActivity implements ValidateLoginCal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_login);
 
 
